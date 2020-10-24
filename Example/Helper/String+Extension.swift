@@ -17,3 +17,17 @@ extension Optional where Wrapped == String {
         return self?.isEmpty ?? true
     }
 }
+
+extension String {
+    func trimWhiteSpaces() -> String {
+        return self.trimmingCharacters(in: CharacterSet.whitespaces)
+    }
+    
+    func trimWhiteSpaceAndNewLines() -> String {
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    }
+    
+    func removeWhiteSpace() -> String {
+        return self.replacingOccurrences(of: " ", with: "")
+    }
+}

@@ -25,6 +25,7 @@ class FilmTableViewCell: UITableViewCell {
     }
     
     func setup(isSetup: Bool) {
+        imagePoster.tintColor = UIColor.black
         if isSetup {
             imagePoster.showAnimatedSkeleton()
             labelFilmTitle.showAnimatedSkeleton()

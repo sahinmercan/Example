@@ -45,7 +45,7 @@ extension PersonContentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: PosterTableViewCell.reuseIdentifier, for: indexPath) as! PosterTableViewCell
-            cell.setup(url: creditItem.person.profileUrl)
+            cell.setup(url: creditItem.person.profileUrl, isPhoto: creditItem.person.isPhoto)
             
             return cell
         } else if indexPath.row == 1 {

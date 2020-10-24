@@ -23,11 +23,15 @@ class PosterTableViewCell: UITableViewCell {
         return String(describing: self)
     }
     
-    func setup(url: String) {
-        photoFill(url: url)
+    func setup(url: String, isPhoto: Bool) {
+        imageTitle.tintColor = UIColor.black
+        photoFill(url: url, isPhoto: isPhoto)
     }
     
-    func photoFill(url: String) {
+    func photoFill(url: String, isPhoto: Bool) {
+        if !isPhoto {
+            return
+        }
         if url != "" {
             if let imageURL = URL(string: url) {
                 imageTitle.kf.setImage(with: imageURL, placeholder: UIImage(), options: [.transition(.fade(1))])

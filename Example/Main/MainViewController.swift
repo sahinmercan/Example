@@ -59,6 +59,7 @@ class MainViewController: UIViewController {
     @objc func handlePullToRefresh(_ refreshControl: UIRefreshControl) {
         if !serviceLoad {
             resetSearch()
+            searchBar.text = ""
             getFilms()
         }
     }
@@ -88,14 +89,18 @@ extension MainViewController: UITableViewDataSource {
             if filmItems.count != 0 {
                 cell.labelFilmTitle.text = filmItems[indexPath.row].original_title
                 cell.labelFilmYear.text = "\(filmItems[indexPath.row].release_date)"
-                photoFill(url: filmItems[indexPath.row].backdropUrl, cell: cell)
+                photoFill(url: filmItems[indexPath.row].backdropUrl, isPhoto: filmItems[indexPath.row].isPhoto, cell: cell)
             }
             
             return cell
         }
     }
     
-    func photoFill(url: String, cell: FilmTableViewCell) {
+    func photoFill(url: String, isPhoto: Bool, cell: FilmTableViewCell) {
+        if !isPhoto {
+            return
+        }
+        
         if url != "" {
             if let imageURL = URL(string: url) {
                 cell.imagePoster.kf.setImage(with: imageURL, placeholder: UIImage(), options: [.transition(.fade(1))])
@@ -202,7 +207,8 @@ extension MainViewController {
         var url = ""
         
         if let searchText = searchText {
-            url = API.searchRoot + "&page=\(nextPageNumber)&query=\(searchText)"
+            let editText = searchText.trimWhiteSpaceAndNewLines().replacingOccurrences(of: " ", with: "+")
+            url = API.searchRoot + "&page=\(nextPageNumber)&query=\(editText)"
         } else {
             url = API.root + "&page=\(nextPageNumber)"
         }
@@ -227,7 +233,7 @@ extension MainViewController {
                 self.refreshControl.endRefreshing()
                 self.tableViewEnd = true
                 self.tableViewFilm.reloadData()
-                ErrorHelper.showAlert(for: error, retryFunction: { self.getFilms(searchText: searchText) })
+                ErrorHelper.showAlert(for: error, message: "Geçici süre hizmet veremiyoruz.", retryFunction: { self.getFilms(searchText: searchText) })
             }
         }
     }
@@ -259,7 +265,7 @@ extension MainViewController {
                 }
             case .failure(let error):
                 NavigationHelper.hideLoadingIndicator {
-                    ErrorHelper.showAlert(for: error, retryFunction: { self.getFilmItem(imdbID: imdbID) })
+                    ErrorHelper.showAlert(for: error, message: "Geçici süre hizmet veremiyoruz.", retryFunction: { self.getFilmItem(imdbID: imdbID) })
                 }
             }
         }

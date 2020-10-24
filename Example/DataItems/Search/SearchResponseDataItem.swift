@@ -28,6 +28,11 @@ class SearchResponseDataItem: BaseItem {
             return API.photoBaseUrl + backdrop_path
         }
     }
+    var isPhoto: Bool {
+        get {
+            return backdrop_path.trimWhiteSpaceAndNewLines() != ""
+        }
+    }
     var posterUrl: String {
         get {
             return API.photoBaseUrl + poster_path

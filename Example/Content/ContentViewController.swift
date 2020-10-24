@@ -48,7 +48,7 @@ extension ContentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: PosterTableViewCell.reuseIdentifier, for: indexPath) as! PosterTableViewCell
-            cell.setup(url: filmItem.backdropUrl)
+            cell.setup(url: filmItem.backdropUrl, isPhoto: filmItem.isPhoto)
             
             return cell
         } else if indexPath.row == count - 2 {
@@ -126,7 +126,7 @@ extension ContentViewController {
                 }
             case .failure(let error):
                 NavigationHelper.hideLoadingIndicator {
-                    ErrorHelper.showAlert(for: error, retryFunction: { self.castService() })
+                    ErrorHelper.showAlert(for: error, message: "Geçici süre hizmet veremiyoruz.", retryFunction: { self.castService() })
                 }
             }
         }

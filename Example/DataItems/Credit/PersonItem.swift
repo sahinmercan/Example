@@ -20,4 +20,9 @@ class PersonItem: BaseItem {
             return API.photoBaseUrl + profile_path
         }
     }
+    var isPhoto: Bool {
+        get {
+            return profile_path.trimWhiteSpaceAndNewLines() != ""
+        }
+    }
 }
